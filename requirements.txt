@@ -1,0 +1,6 @@
+streamlit
+graphviz
+pandas
+scikit-learn
+jupyterlab
+seaborn
