@@ -1,0 +1,53 @@
+explain:
+  accuracy:
+    title: Accuracy
+    label: 👉🎯
+    subheader: A Dog
+    text: >
+      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
+      laying out print, graphic or web designs. The passage is attributed to an
+      unknown typesetter in the 15th century who is thought to have scrambled 
+      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
+      book. It usually begins with.
+  precision:
+    title: Precision
+    label: 👉🎯
+    subheader: How many infected samples were truly instances of Alternaria?
+    text: >
+      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
+      laying out print, graphic or web designs. The passage is attributed to an
+      unknown typesetter in the 15th century who is thought to have scrambled 
+      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
+      book. It usually begins with.
+  f1_score:
+    title: F1 Score
+    label: 👉🎯
+    subheader: How many infected samples were truly instances of Alternaria?
+    text: >
+      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
+      laying out print, graphic or web designs. The passage is attributed to an
+      unknown typesetter in the 15th century who is thought to have scrambled 
+      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
+      book. It usually begins with.
+  recall:
+    title: Recall
+    label: 👉🎯
+    subheader: How many infected samples were truly instances of Alternaria?
+    text: >
+      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
+      laying out print, graphic or web designs. The passage is attributed to an
+      unknown typesetter in the 15th century who is thought to have scrambled 
+      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
+      book. It usually begins with.
+  specificity:
+    title: Specificity
+    label: $a + ar + a r^2$ 💪👀
+    subheader: How many infected samples were truly instances of Alternaria?
+    text: >
+      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
+      laying out print, graphic or web designs. The passage is attributed to an
+      unknown typesetter in the 15th century who is thought to have scrambled 
+      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
+      book. It usually begins with.  
+      
+      $a + ar + a r^2$
