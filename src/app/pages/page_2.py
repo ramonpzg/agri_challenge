@@ -8,8 +8,8 @@ import seaborn as sns
 st.title("Part 2 - Model Evaluation")
 st.sidebar.markdown("# Programming Challenge")
 
-cfg_main = OmegaConf.load('src/config.yml')
-cfg_exp = OmegaConf.load('src/explanation.yml')
+cfg_main = OmegaConf.load('src/configs/config.yml')
+cfg_exp = OmegaConf.load('src/configs/explanation.yml')
 
 
 ###########################
