@@ -18,3 +18,32 @@ stages:
     - path: data/interim/predicted_table.parquet
       md5: 1d463d0b0c4a226831fc03082d503eea
       size: 34726
+  transform:
+    cmd: python src/transform.py
+    deps:
+    - path: data/interim/actuals_table.parquet
+      md5: 2181288d1fa8dd6de2c2ba7363f44e76
+      size: 34752
+    - path: data/interim/predicted_table.parquet
+      md5: 1d463d0b0c4a226831fc03082d503eea
+      size: 34726
+    outs:
+    - path: data/processed/combined_table.parquet
+      md5: 91a9f9b56681950a004f065aef1b3ad3
+      size: 39491
+  load:
+    cmd: python src/load.py
+    deps:
+    - path: data/processed/combined_table.parquet
+      md5: 91a9f9b56681950a004f065aef1b3ad3
+      size: 39491
+    outs:
+    - path: data/dwarehouse/db_analytics.ddb
+      md5: f2348a2a1f68ac6917bbbf75f74f0331
+      size: 274432
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/combined_table.parquet
+      md5: 91a9f9b56681950a004f065aef1b3ad3
+      size: 39491

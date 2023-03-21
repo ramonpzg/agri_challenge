@@ -7,3 +7,20 @@ stages:
     outs:
     - data/interim/actuals_table.parquet
     - data/interim/predicted_table.parquet
+  transform:
+    cmd: python src/transform.py
+    deps:
+    - data/interim/actuals_table.parquet
+    - data/interim/predicted_table.parquet
+    outs:
+    - data/processed/combined_table.parquet
+  load:
+    cmd: python src/load.py
+    deps:
+    - data/processed/combined_table.parquet
+    outs:
+    - data/dwarehouse/db_analytics.ddb
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - data/processed/combined_table.parquet
