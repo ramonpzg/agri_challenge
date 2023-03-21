@@ -32,7 +32,7 @@ graph.edge('Test', 'Evaluation')
 graph.edge('Model', 'Evaluation')
 graph.edge('Evaluation', 'Inference')
 
-st.markdown("## Process for Creating Model and Predictions")
+st.markdown("## 1. Process for Creating Model and Predictions")
 st.graphviz_chart(graph)
 
 
@@ -40,33 +40,28 @@ st.graphviz_chart(graph)
 #         Facts           #
 ###########################
 
-st.markdown("## Some Facts")
+st.markdown("## 2. Some Facts")
+st.image("https://images.unsplash.com/photo-1466921583968-f07aa80c526e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80")
 
 samp_size, healthy, pred_healthy = st.columns(3, gap="large")
 
-samp_size.subheader("Sample Size")
-samp_size.metric(label="Sample Size", value=752)
-healthy.subheader("Healthy")
-healthy.metric(label="Sample Size", value=752)
-pred_healthy.subheader("Wrong Predictions")
-pred_healthy.metric(label="Sample Size", value=752)
+samp_size.subheader("#️⃣ Sample Size")
+samp_size.metric(label="-", value=cfg_main.facts.sample_size, label_visibility="collapsed")
+healthy.subheader("💪🥗 Preds")
+healthy.metric(label="-----------", value=cfg_main.facts.healthy_preds, label_visibility="collapsed")
+pred_healthy.subheader("⛔ Predictions")
+pred_healthy.metric(label="-----------", value=cfg_main.facts.wrong_preds, label_visibility="collapsed")
 
 
 ###########################
-#    Metric #1 Accuracy   #
+#        Metrics          #
 ###########################
 
-col1, col2 = st.columns([1, 4], gap="small")
-
-col1.subheader(cfg_exp.explain.accuracy.title)
-col1.metric(label=f"{cfg_exp.explain.accuracy.label}", value=cfg_main.metrics.accuracy)
-
-col2.subheader(cfg_exp.explain.accuracy.subheader)
-col2.markdown(cfg_exp.explain.accuracy.text)
-
+st.markdown("## 3. Some Metrics")
+st.image("https://images.pexels.com/photos/590041/pexels-photo-590041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")
 
 ###########################
-#  Metric #2 Precission   #
+#  Metric #1 Precission   #
 ###########################
 
 col3, col4 = st.columns([1, 4], gap="small")
@@ -76,6 +71,19 @@ col3.metric(label=f"{cfg_exp.explain.precision.label}", value=cfg_main.metrics.p
 
 col4.subheader(cfg_exp.explain.precision.subheader)
 col4.markdown(cfg_exp.explain.precision.text)
+
+
+###########################
+#    Metric #2 Recall     #
+###########################
+
+col7, col8 = st.columns([1, 4], gap="small")
+
+col7.subheader(cfg_exp.explain.recall.title)
+col7.metric(label=f"{cfg_exp.explain.recall.label}", value=cfg_main.metrics.recall)
+
+col8.subheader(cfg_exp.explain.recall.subheader)
+col8.markdown(cfg_exp.explain.recall.text)
 
 
 ###########################
@@ -92,36 +100,43 @@ col6.markdown(cfg_exp.explain.f1_score.text)
 
 
 ###########################
-#    Metric #4 Recall     #
+#    Metric #4 Accuracy   #
 ###########################
 
-col7, col8 = st.columns([1, 4], gap="small")
+col1, col2 = st.columns([1, 4], gap="small")
 
-col7.subheader(cfg_exp.explain.recall.title)
-col7.metric(label=f"{cfg_exp.explain.recall.label}", value=cfg_main.metrics.recall)
+col1.subheader(cfg_exp.explain.accuracy.title)
+col1.metric(label=f"{cfg_exp.explain.accuracy.label}", value=cfg_main.metrics.accuracy)
 
-col8.subheader(cfg_exp.explain.recall.subheader)
-col8.markdown(cfg_exp.explain.recall.text)
-
-
-###########################
-#  Metric #5 Specificity  #
-###########################
-
-col9, col10 = st.columns([1, 4], gap="small")
-
-col9.subheader(cfg_exp.explain.specificity.title)
-col9.metric(label=f"{cfg_exp.explain.specificity.label}", value=cfg_main.metrics.specificity)
-
-col10.subheader(cfg_exp.explain.specificity.subheader)
-col10.markdown(cfg_exp.explain.specificity.text)
+col2.subheader(cfg_exp.explain.accuracy.subheader)
+col2.markdown(cfg_exp.explain.accuracy.text)
 
 
 ###########################
 #    Confusion Matrix     #
 ###########################
 
-st.markdown("## Confusion Matrix")
+st.markdown("## 4. Confusion Matrix")
+st.image("images/conf_mtx.png")
+
+st.markdown("""
+The fastest way to get started analyzing the results coming out of a classification model is via a confusion matrix (CM). CMs provide us with a $2x2$ (or bigger) matrix where the columns are represented by the actual labels, and the rows by the predictions. Each element in the table represents the intersection of the two.
+
+Here's one way to understand it. Imagine we are examining the predictions of a classification model sports cars.
+
+|       | Actual Sports Cars | Not Sports Cars|
+|---|---|---|
+| Predicted Sports Cars  | 420 |  80 |
+| Predicted Not Sports Cars | 64 |  100 |
+
+The way we evaluate these regions is as follows.
+- `Actual Sports Car` and `Predicted a Sports Car` are considered `True Positives` since our model did a good jobs at predicting that a Ferrari is a sports car.
+- `Actual Sports Car` and `Predicted Not a Sports Car` are considered `False Negatives` since our model mistakenly said that a Ferrari was the same as a Honda CRV, not a sports car.
+- `Not a Sports Car` and `Predicted a Sports Car` are considered `False Positives` since our model predicted that Nissan Pathfinder was like a ferrari, a sports car.
+- `Not a Sports Car` and `Predicted Not a Sports Car` are considered `True Negatives` since our model did a good jobs at predicting that Honda CRVs are not sports cars.
+
+With our knowledge of confusion matrices, let's examine our predictions.
+""")
 
 mtx = pd.DataFrame([
     [cfg_main.matrix.true_pos,  cfg_main.matrix.false_pos], 

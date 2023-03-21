@@ -1,7 +1,7 @@
 explain:
   precision:
     title: Precision
-    label: 📏
+    label: 📏 $P = \frac{TP}{TP + FP}$ 📏
     subheader: A high precision means our model is good at avoiding false positives.
     text: >
       Precision measures the percentage of items that are correctly identified as 
@@ -11,7 +11,7 @@ explain:
       good at avoiding false positives.
   recall:
     title: Recall
-    label: 👉🎯
+    label: 📞 $R = \frac{TP}{TP + FN}$ ☎️
     subheader: A high recall means that our mode is good at avoiding false negatives.
     text: >
       Recall measures the percentage of all positive items that are correctly identified 
@@ -21,16 +21,23 @@ explain:
   accuracy:
     title: Accuracy
     label: 👉🎯
-    subheader: A Dog
+    subheader: While our models is accurate on TPs, it cannot predict any TN correctly.
     text: >
-      Precision measures the percentage of items that are correctly identified as 
-      positive out of all items that the model identified as positive. In other words, 
-      it measures the proportion of true positives among all the samples that the 
-      model classified as positive. A high precision means that the model is 
-      good at avoiding false positives.
+      Accuracy is a metric used to evaluate how well a classification model is able 
+      to correctly predict the class label of unseen data points, and it is defined 
+      as the ratio of the number of correct predictions to the total number of predictions. 
   f1_score:
     title: F1 Score
-    label: 👉🎯
+    label: $f1 = \frac{2 tp}{2tp + fp + fn}$🏎️
+    subheader: The higher the score the better the performance on our imbalanced data.
+    text: >
+      The F1 score is a measure of a model's accuracy that combines the precision 
+      and recall metrics into a single score. It takes into account both false 
+      positives and false negatives, making it a useful metric for evaluating models 
+      that deal with imbalanced classes.
+  specificity:
+    title: Specificity
+    label: $S = \frac{tn}{tn + fp}$ 💪👀
     subheader: How many infected samples were truly instances of Alternaria?
     text: >
       Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
@@ -38,15 +45,3 @@ explain:
       unknown typesetter in the 15th century who is thought to have scrambled 
       parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
       book. It usually begins with.
-  specificity:
-    title: Specificity
-    label: $a + ar + a r^2$ 💪👀
-    subheader: How many infected samples were truly instances of Alternaria?
-    text: >
-      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
-      laying out print, graphic or web designs. The passage is attributed to an
-      unknown typesetter in the 15th century who is thought to have scrambled 
-      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
-      book. It usually begins with.  
-      
-      $a + ar + a r^2$

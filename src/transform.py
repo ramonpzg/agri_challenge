@@ -10,8 +10,5 @@ def merge_truth_preds(df1, df2, **kwargs):
 if __name__ == "__main__":
     df1 = load_table(join("data", "interim"), "actuals_table.parquet")
     df2 = load_table(join("data", "interim"), "predicted_table.parquet")
-    df_combined = merge_truth_preds(
-        df1, df2, left_on="item_id", right_on="item_id", 
-        suffixes=("_truth", "_pred")
-    )
+    df_combined = merge_truth_preds(df1, df2, left_on="item_id", right_on="item_id", suffixes=("_truth", "_pred"))
     save_data(df_combined, join("data", "processed"), "combined_table.parquet")

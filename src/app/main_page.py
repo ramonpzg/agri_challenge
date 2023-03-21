@@ -4,7 +4,8 @@ from PIL import Image
 
 st.title("BioScout Technical Challenge")
 
-st.sidebar.markdown("# Main page 🎈")
+st.sidebar.markdown("# Main page 📜")
+st.sidebar.markdown("This page contains the challenge instructions. Please scroll through the sections above to see the answers")
 
 st.markdown("""
 ## Machine Learning Engineer (take home):
