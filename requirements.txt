@@ -5,3 +5,5 @@ scikit-learn
 jupyterlab
 seaborn
 ibis-framework[duckdb]
+dvc
+omegaconf
