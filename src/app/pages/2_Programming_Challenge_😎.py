@@ -48,7 +48,7 @@ samp_size.subheader("Sample Size")
 samp_size.metric(label="Sample Size", value=752)
 healthy.subheader("Healthy")
 healthy.metric(label="Sample Size", value=752)
-pred_healthy.subheader("Healthy Predictions")
+pred_healthy.subheader("Wrong Predictions")
 pred_healthy.metric(label="Sample Size", value=752)
 
 
@@ -124,10 +124,11 @@ col10.markdown(cfg_exp.explain.specificity.text)
 st.markdown("## Confusion Matrix")
 
 mtx = pd.DataFrame([
-    [cfg_main.matrix.true_pos, cfg_main.matrix.false_pos], 
+    [cfg_main.matrix.true_pos,  cfg_main.matrix.false_pos], 
     [cfg_main.matrix.false_neg, cfg_main.matrix.true_neg]
-    ], columns=["Actual True", "Actual False"],
-       index=["Predicted True", "Predicted False"]
+], 
+    columns = ["Actual True", "Actual False"],
+    index   = ["Predicted True", "Predicted False"]
 )
 
 
