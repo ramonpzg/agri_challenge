@@ -1,0 +1,20 @@
+schema: '2.0'
+stages:
+  extract:
+    cmd: python src/extract.py
+    deps:
+    - path: data/raw/ground_truth/
+      md5: 4e8f1af742cd70b98c1867331d103809.dir
+      size: 918738
+      nfiles: 753
+    - path: data/raw/predictions/
+      md5: 851b978a8b6e852fed5947e7fb96f66b.dir
+      size: 924531
+      nfiles: 752
+    outs:
+    - path: data/interim/actuals_table.parquet
+      md5: 2181288d1fa8dd6de2c2ba7363f44e76
+      size: 34752
+    - path: data/interim/predicted_table.parquet
+      md5: 1d463d0b0c4a226831fc03082d503eea
+      size: 34726

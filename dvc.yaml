@@ -1,0 +1,9 @@
+stages:
+  extract:
+    cmd: python src/extract.py
+    deps:
+    - data/raw/ground_truth/
+    - data/raw/predictions/
+    outs:
+    - data/interim/actuals_table.parquet
+    - data/interim/predicted_table.parquet
