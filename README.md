@@ -12,4 +12,3 @@ You can view this project inside a deployed streamlit app, run it on binder, or 
 3. Set Up
     - Conda Users
     - Pip Users
-4. 
