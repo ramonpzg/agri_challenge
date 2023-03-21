@@ -1,0 +1,5 @@
+[core]
+    remote = local_data_lake
+    autostage = true
+['remote "local_data_lake"']
+    url = ../data
