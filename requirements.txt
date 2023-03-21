@@ -4,3 +4,4 @@ pandas
 scikit-learn
 jupyterlab
 seaborn
+ibis-framework[duckdb]
