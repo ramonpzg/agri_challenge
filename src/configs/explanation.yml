@@ -1,36 +1,35 @@
 explain:
+  precision:
+    title: Precision
+    label: 📏
+    subheader: A high precision means our model is good at avoiding false positives.
+    text: >
+      Precision measures the percentage of items that are correctly identified as 
+      positive out of all items that the model identified as positive. In other words, 
+      it measures the proportion of true positives among all the samples that the 
+      model classified as positive. A high precision means that the model is 
+      good at avoiding false positives.
+  recall:
+    title: Recall
+    label: 👉🎯
+    subheader: A high recall means that our mode is good at avoiding false negatives.
+    text: >
+      Recall measures the percentage of all positive items that are correctly identified 
+      by the model. In other words, it measures the proportion of true positives 
+      that the model correctly identified among all the samples that are actually 
+      positive. A high recall means that the model is good at avoiding false negatives.
   accuracy:
     title: Accuracy
     label: 👉🎯
     subheader: A Dog
     text: >
-      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
-      laying out print, graphic or web designs. The passage is attributed to an
-      unknown typesetter in the 15th century who is thought to have scrambled 
-      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
-      book. It usually begins with.
-  precision:
-    title: Precision
-    label: 👉🎯
-    subheader: How many infected samples were truly instances of Alternaria?
-    text: >
-      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
-      laying out print, graphic or web designs. The passage is attributed to an
-      unknown typesetter in the 15th century who is thought to have scrambled 
-      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
-      book. It usually begins with.
+      Precision measures the percentage of items that are correctly identified as 
+      positive out of all items that the model identified as positive. In other words, 
+      it measures the proportion of true positives among all the samples that the 
+      model classified as positive. A high precision means that the model is 
+      good at avoiding false positives.
   f1_score:
     title: F1 Score
-    label: 👉🎯
-    subheader: How many infected samples were truly instances of Alternaria?
-    text: >
-      Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in 
-      laying out print, graphic or web designs. The passage is attributed to an
-      unknown typesetter in the 15th century who is thought to have scrambled 
-      parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen
-      book. It usually begins with.
-  recall:
-    title: Recall
     label: 👉🎯
     subheader: How many infected samples were truly instances of Alternaria?
     text: >

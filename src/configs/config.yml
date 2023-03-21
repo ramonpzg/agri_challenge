@@ -1,15 +1,12 @@
 facts:
   sample_size: 752
-  healthy: 40
-  pred_healthy: 19
-
+  healthy_preds: 688
+  wrong_preds: 26
 metrics:
-  accuracy: 94.3
-  precision: 91.2
-  f1_score: 91.7
-  recall: 91.7
-  specificity: 91.7
-  
+  precision: 93.86
+  recall: 97.31
+  f1_score: 95.56
+  accuracy: 91.49
 matrix:
   true_pos: 688
   true_neg: 0
