@@ -26,7 +26,7 @@ This document outlines the possible routes I would follow in order to train a mo
 
 ## 2. TL;DR
 
-Assuming that the data gets uploaded into a data lake for which I have access rights, the next step would be to develop a pipeline locally before scalling to the cloud. This pipeline would be built using MetaFlow and it would consist of a data loader and a combination of models with an experiment tracking tool (e.g. wandb) attached to it. The best model(s) would be saved into our data lake (with a git tag attached to it, or to whichever registry we are using for our models), and it will be served as a serverless API using AWS via bentoml. The series of models would be trained using PyTorch or FastAI and they would involve a (1) segmentation model that identifies images with spores of a given deceace, this would allow us to use the output of such model to focus on the areas of the image that contain deceases rather than large areas with nothing on them or with regular spores. In addition, it will help us balance the limited input of images with a decease as we exclude irrelevant input. Nexr (2) we would crop high focus areas and combine them into an image that would be used to build a (3) classification model that predicts the class of the spores in the image. To pain a better picture regarding this step, imagine taking the all the squares from y=(0, 2048) and x=(0, 1024) above and combining it with different squares. The last step would be to evaluate the results against the desired metric for the project, and, if happy, deploying our solution to start making predictions.
+Assuming that the data gets uploaded into a data lake for which I have access rights, the next step would be to develop a pipeline locally before scalling to the cloud. This pipeline would be built using MetaFlow and it would consist of a data loader and a combination of models with an experiment tracking tool (e.g. wandb) attached to it. The best model(s) would be saved into our data lake (with a git tag attached to it, or to whichever registry we are using for our models), and it will be served as a serverless API using AWS via bentoml. The series of models would be trained using PyTorch or FastAI and they would involve a (1) semantic or instance segmentation model to identify images with spores of a given deceace. This would allow us to use the output of such a model to focus on the areas of the image that contain deceases rather than large areas with nothing on them or with regular spores. In addition, it will help us balance the limited input of images with a decease as we exclude irrelevant input. Nexr (2) we would crop high focus areas and combine them into an image that would be used to build a (3) classification model that predicts the class of the spores in the image. To pain a better picture regarding this step, imagine taking the all the squares from y=(0, 2048) and x=(0, 1024) above and combining it with different squares. The last step would be to evaluate the results against the desired metric for the project, and, if happy, deploying our solution to start making predictions.
 
 Here's a sketch of the process highlighted above.
 
@@ -100,6 +100,7 @@ class SporesClassifier(FlowSpec):
     @step
     def evaluate(self):
         ...
+        bentoml.fastai.save_model(...)
         self.next(self.end)
 
     @step
