@@ -7,3 +7,6 @@ seaborn
 ibis-framework[duckdb]
 dvc
 omegaconf
+ruff
+mypy
+pandas-stubs
