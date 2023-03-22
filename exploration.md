@@ -60,6 +60,15 @@ To get started, we'll begin by importing a few packages that will help us carry 
 - `scikit-learn`
 - `ibis`
 - `dvc`
+- `OmegaConf`
+- `ruff`
+- `mypy`
+- `pandas-stubs`
+
+The following packages are used in the app version of this project only.
+- `streamlit`
+- `graphviz`
+- `seaborn`
 
 
 ```python
@@ -71,6 +80,7 @@ from os.path import join
 from random import choice
 from sklearn import metrics as m
 import ibis
+from omegaconf import OmegaConf
 ```
 
 ## 3. Exploration
@@ -306,7 +316,8 @@ def merge_truth_preds(df1, df2, **kwargs):
 
 
 ```python
-merge_truth_preds(df_truth, df_preds, left_on="item_id", right_on="item_id", suffixes=("_truth", "_pred")).tail()
+df = merge_truth_preds(df_truth, df_preds, left_on="item_id", right_on="item_id", suffixes=("_truth", "_pred"))
+df.tail()
 ```
 
 
@@ -445,7 +456,7 @@ mtx
 
 
 ```python
-conf = ConfusionMatrixDisplay(mtx)
+conf = m.ConfusionMatrixDisplay(mtx)
 conf.plot(colorbar=False);
 ```
 
@@ -625,7 +636,7 @@ def generate_config(metrics, mtx, path=None, file_name=None):
 
 
 ```python
-generate_config(metrics, mtx)
+generate_config(metrics, conf_mtx)
 ```
 
 We can now put everything together and finalize our last script.
@@ -719,6 +730,11 @@ dvc stage add --force --name extract \
 ```
 
 
+```python
+# !rm dvc.lock dvc.yaml
+```
+
+
 ```bash
 %%bash
 
@@ -790,6 +806,39 @@ Finally, if we want to have a look at the graph created by our pipeline, we can 
 
 ```python
 !dvc dag
+```
+
+## 6. Tests
+
+The fastest way to get started testing our code is with `ruff`, a blazingly fast Python linter. In addition, we could go back and add type annotations to our scripts so that we can test code correctness with `mypy`.
+
+It is important to note that we will use them here for example purposes only, and not to be included in a rigorous CI/CD pipeline (that's for another day 😎).
+
+
+```python
+!ruff check .
+```
+
+As you can see, `ruff` will alert us of any unused modules, long titles, and non-pythonic code found in our codebase, which becomes very useful when collaborating with others on large projects.
+
+
+```python
+!mypy src/extract.py
+```
+
+Because we have not created a local dev environment for our package, mypy will let us know that the load module is an unknown one for it and, therefore, we need to add such implementation as stub package to PyPI (similar to `pandas-stubs`).
+
+There is also a type we need to fix, `List`, inside our `extract.py` scrip. We need to add `str` inside of it as `List[str]` so that mypy doesn't yell at us.
+
+That was a quit intro to a few quick and dirty tests we can run on our codebase, there are plenty more we could take advantage of, of course.
+
+## 7. Conclusion
+
+
+
+
+```python
+
 ```
 
 
