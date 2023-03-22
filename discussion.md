@@ -26,7 +26,7 @@ This document outlines the possible routes I would follow in order to train a mo
 
 ## 2. TL;DR
 
-Assuming that the data gets uploaded into a data lake for which I have access rights, the next step would be to develop a pipeline locally before scalling to the cloud. This pipeline would be built using MetaFlow and it would consist of a data loader and a combination of models with an experiment tracking tool (e.g. wandb) attached to it. The best model(s) would be saved into our data lake (with a git tag attached to it, or to whichever registry we are using for our models), and it will be served as a serverless API using AWS via bentoml. The series of models would be trained using PyTorch or FastAI and they would involve a (1) semantic or instance segmentation model to identify images with spores of a given deceace. This would allow us to use the output of such a model to focus on the areas of the image that contain deceases rather than large areas with nothing on them or with regular spores. In addition, it will help us balance the limited input of images with a decease as we exclude irrelevant input. Nexr (2) we would crop high focus areas and combine them into an image that would be used to build a (3) classification model that predicts the class of the spores in the image. To pain a better picture regarding this step, imagine taking the all the squares from y=(0, 2048) and x=(0, 1024) above and combining it with different squares. The last step would be to evaluate the results against the desired metric for the project, and, if happy, deploying our solution to start making predictions.
+Let's assume the labelled data is now resting in a data lake ready-to-be-used, the next step would be to develop a pipeline locally before scalling to the cloud. This pipeline would be built using, say, MetaFlow and it would consist of a data loader and a combination of models with an experiment tracking tool (e.g. wandb) attached to the modeling step. The best models would be saved into our data lake (with a git tags attached to them, or to whichever registry we are using for our models), and the candidates would be served in a pipeline as a serverless API using bentoml and AWS. The series of models would be trained using PyTorch or FastAI and they would involve a (1) semantic or instance segmentation model to identify images with spores of a given deceace. This would allow us to use the output of such a model to focus on the areas of the image that contain deceases rather than large areas with nothing or with regular spores on them. In addition, this model will help us balance the limited input of images with a decease as we exclude irrelevant input. Next, (2) we would crop high focus areas and combine them into an image that would be used to build a (3) classification model that predicts the class of the spores in the image. To paint a better picture regarding step 2, imagine taking all the squares from y=(0, 2048) and x=(0, 1024) in the image above and combining them with different squares. This would would effectively give us a new image to train a classifier on. The last step would be to evaluate the results against the desired metric for the project and, if happy, deploying our solution to start making predictions on behalf of our farmers.
 
 Here's a sketch of the process highlighted above.
 
@@ -150,28 +150,28 @@ Our model development would consist of a few parts:
 
 ### 5.1 Approach 1
 
-Pure classification, identifying the classes available
+Since we already have labelled images with a class and the coordinates for the bounding box around the spores with a decease, we would start with object detection classification model that predicts the class. This model could be a R-CNN or Regional-based Convolutional Neural Network (ok but not the best), or a YOLO (You Only Look Once) algorithm (preferred) since it splits the image into grids and it learns not only the class available but also the position of the bouding box.
 
 ### 5.2 Approach 2
 
-segmentation > grouping > classification > analysis
+The second approach we could take is the one describe in the TL;DR above. This involved a segmentation model, followed by some grouping to create new images that would then be passed through a CNN for classification. After some experimentation, we would evaluate the results and pick the best parametrized pipeline to put in production.
 
 ### 5.3 Approach 3
 
-Augmentation
+This step would require going back to the data engineering part to first create a new pipeline that crops regions of our images and returns a new set of images with only one class in them. Second, we would generate synthetic data of the classes with bad spores and approach training with a regular convolutional neural network.
 
 ## 6. Deployment
 
-AWS
-
-BentoML (requires that docker terraform)
+BentoML, which requires having docker and terraform installed, is one of the fastest ways for productionizing ML via serverless functions on multiple cloud providers (AWS in our case). I not only helps us build type-safe services for our models but it also allows us to keep them stored in one central location, regardless of which environment we install bentoml in.
 
 ## 7. Monitoring and Continual Learning
 
-Alibi detect
+While the way in which spores get captured might not change drastically with time, the pieace of hardware we house could suck water droplets, dirt, and other kinds of spores that combined could lead our models to provide wrong predictions. To combat this, we could use tools like Alibi Detect to measure feature drift, or evidently.ai to have a more continuous view of our what our models are receiving and returning upon predicting the class of a new image.
 
 ## 8. Business Analysis
 
-Analysis of the classification output
+This last piece focuses on the way in which we analyze our models' predictions to maximize business value, and the way in which we show predictions output our users via our dashboard. Some questions I would work through include, are the visualizations in place the best ones to showcase the results of our model? Are there other ways to show additional information about our models, or the data in general, to our users to increase engagement? Can we create a in-house labeling tool and hold labelling parties where everyone in the company help labell some data?
 
 ## 9. Conclusion
+
+A multi-stage model approach might be a good choice for a pipeline that predicts multiple classes and a bounding box for each image. In addition, the infrastructure around our data can depend AWS and on proprietary tools like Amazon Glue for ETL data engineering work, or open source ones like metaflow for our pipelines, bentoml for deployment, and Weights & Biases for experimentation. The model development lifecycle can rest at ease with PyTorch and the architecture of choice (i.e. yolo, r-cnn, or cnn) can depend on the model pipeline.
