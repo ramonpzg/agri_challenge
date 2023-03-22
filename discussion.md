@@ -1,6 +1,6 @@
 # ML Project Discussion
 
-This document outlines the possible routes I would follow in order to train a model that detects different kinds of spores floating around several farms across Australia and elswhere. The TL;DR section below answers the task in one paragraph, as requested, and the subsequent sections go into greater detail on the approaches I would take for this challenge.
+This document outlines the possible routes I would follow to train a model that detects different kinds of spores floating around several farms across Australia and elsewhere. The TL;DR section below answers the task in one paragraph, as requested, and the subsequent sections go into greater detail on the approaches I would take for this challenge.
 
 ## Table of Contents
 
@@ -20,13 +20,15 @@ This document outlines the possible routes I would follow in order to train a mo
 
 <img title="" src="images/raw_input.jpg" alt="AJKFEHASIEFHAUISDHFwrfgasfdgsdf" data-align="center" width="461">
 
-> In this question, we would like you to provide a **discussion paragraph** detailing how you would go about setting up a machine learning experiment to identify a particular spore type. Assume that a labelled dataset has been provided for you, including microscope images and labels of bounding boxes. Please outline the core tasks that would need to be completed in order to develop a machine learning model for this dataset.
+> In this question, we would like you to provide a **discussion paragraph** detailing how you would go about setting up a machine learning experiment to identify a particular spore type. Assume that a labeled dataset has been provided for you, including microscope images and labels of bounding boxes. Please outline the core tasks that would need to be completed to develop a machine learning model for this dataset.
+
 
 <img title="" src="images/example_predictions.png" alt="AJKFEHASIEFHAUISDHFwrfgasfdgsdf" width="462" data-align="center">
 
 ## 2. TL;DR
 
-Let's assume the labelled data is now resting in a data lake ready-to-be-used, the next step would be to develop a pipeline locally before scalling to the cloud. This pipeline would be built using, say, MetaFlow and it would consist of a data loader and a combination of models with an experiment tracking tool (e.g. wandb) attached to the modeling step. The best models would be saved into our data lake (with a git tags attached to them, or to whichever registry we are using for our models), and the candidates would be served in a pipeline as a serverless API using bentoml and AWS. The series of models would be trained using PyTorch or FastAI and they would involve a (1) semantic or instance segmentation model to identify images with spores of a given deceace. This would allow us to use the output of such a model to focus on the areas of the image that contain deceases rather than large areas with nothing or with regular spores on them. In addition, this model will help us balance the limited input of images with a decease as we exclude irrelevant input. Next, (2) we would crop high focus areas and combine them into an image that would be used to build a (3) classification model that predicts the class of the spores in the image. To paint a better picture regarding step 2, imagine taking all the squares from y=(0, 2048) and x=(0, 1024) in the image above and combining them with different squares. This would would effectively give us a new image to train a classifier on. The last step would be to evaluate the results against the desired metric for the project and, if happy, deploying our solution to start making predictions on behalf of our farmers.
+Let's assume the labeled data is now resting in a data lake ready-to-be-used, the next step would be to develop a pipeline locally before scaling to the cloud. This pipeline would be built using, say, MetaFlow and it would consist of a data loader and a combination of models with an experiment tracking tool (e.g. wandb) attached to the modeling step. The best models would be saved into our data lake (with git tags attached to them, or to whichever registry we are using for our models), and the candidates would be served in a pipeline as a serverless API using bentoml and AWS. The series of models would be trained using PyTorch or FastAI and they would involve a (1) semantic or instance segmentation model to identify images with spores of a given deceased. This would allow us to use the output of such a model to focus on the areas of the image that contain diseases rather than large areas with nothing or with regular spores on them. In addition, this model will help us balance the limited input of images with a decrease as we exclude irrelevant input. Next, (2) we would crop high-focus areas and combine them into an image that would be used to build a (3) classification model that predicts the class of the spores in the image. To paint a better picture regarding step 2, imagine taking all the squares from y=(0, 2048) and x=(0, 1024) in the image above and combining them with different squares. This would effectively give us a new image to train a classifier on. The last step would be to evaluate the results against the desired metric for the project and, if happy, deploy our solution to start making predictions on behalf of our farmers.
+
 
 Here's a sketch of the process highlighted above.
 
@@ -116,37 +118,33 @@ if __name__ == '__main__':
 
 ## 3. Project Scoping
 
-It is important to lay out the foundation for our project before we begin. This foundation will include overall goal of the project, metrics to optimize for, potential challenges, and more. Let's highlight these for our project.
+It is important to lay out the foundation for our project before we begin. This foundation will include the overall goal of the project, metrics to optimize for, potential challenges, and more. Let's highlight these for our project.
 
 - Goal: To reduce the amount of human labor required to label microscope-taken images with dreadful spores in them.
 
-- Main Metric: Recall and, potentially, Specificity since we want to maximize the amount of true predictions in the dataset and minimize cost farmer's incurr when adding unnecessary pesticide.
+- Main Metric: Recall and, potentially, Specificity since we want to maximize the number of true predictions in the dataset and minimize the cost farmers incur when adding unnecessary pesticides.
 
-- Potential challenges: highly inbalanced dataset.
+- Potential challenges: highly imbalanced dataset.
 
 ## 4. Data Engineering
 
-In this step, we would evaluate the shape and form of the images ingested by our models and create pipelines to have the images ready-to-go for training at any given moment. In addition, these pipelines would, ideally, be orchestrated in different ways, for example, to run every evening at midnight on VMs with different hardware requirements. For the orchestration layer we would use either an open source tool like MetaFlow, or a cloud-native one like Amazon Glue
+In this step, we would evaluate the shape and form of the images ingested by our models and create pipelines to have the images ready to go for training at any given moment. In addition, these pipelines would, ideally, be orchestrated in different ways, for example, to run every evening at midnight on VMs with different hardware requirements. For the orchestration layer, we would use either an open-source tool like MetaFlow, or a cloud-native one like Amazon Glue.
 
+Why different hardware requirements? If different pieces of hardware are down for maintenance for a day or two, that means that our pipeline will process fewer images and, therefore, would need fewer resources.
 
-
-Why different hardware requirements? If different pieces of hardware are down for maintenance for a day or two, that means that our pipeline will process less images and, therefore, would need less resources.
-
-
-
-Note: Orchestrators and schedulers differ in one important way, resources. While orchestrators can shchedule, queue, and manage the resources a series of jobs would need, a scheduler cannot.
+Note: Orchestrators and schedulers differ in one important way, resources. While orchestrators can schedule, queue, and manage the resources a series of jobs would need, a scheduler cannot.
 
 ## 5. ML Model Development
 
 Our model development would consist of a few parts:
 
-1. Data Loaders: Assuming we will use PyTorch or FastAI, our data loader would be the piece of our model development pipeline that we connect to the output of our ETL or ELT pipeline from the previous method. Ideally, in this step we will manage train/valid/test split and other transformations necessary. For example, for we would take our spores annotated images for our task and split it 60-20-20.
+1. Data Loaders: Assuming we will use PyTorch or FastAI, our data loader would be the piece of our model development pipeline that we connect to the output of our ETL or ELT pipeline from the previous method. Ideally, in this step, we will manage train/valid/test split and other transformations necessary. For example, we would take our spores' annotated images for our task and split it 60-20-20.
 
-2. Model or Series of Models: While we would most-likely try one model at a time for inference, it is normal to test approaches that chain multiple models together, as discussed in the TL;DR section. 
+2. Model or Series of Models: While we would most likely try one model at a time for inference, it is normal to test approaches that chain multiple models together, as discussed in the TL;DR section. 
 
 3. Experimentation Approach: In this stage, we want to try a combination of hyperparameters (e.g. learning rate) using a tool like Optuna, with an experiment tracking tool like Weights & Biases or MLFlow. That way we won't forget which combinations we ran and which was the best.
 
-4. Model Store: Our models should be kept in an organized way so that we can access them easily in case we need to role back to a previous version or select a newer and better one. Weights & Biases provides a way to save artifacts in it, and another (somewhat preferred) way of saving a model would be via bentoml.
+4. Model Store: Our models should be kept in an organized way so that we can access them easily in case we need to roll back to a previous version or select a newer and better one. Weights & Biases provides a way to save artifacts in it, and another (somewhat preferred) way of saving a model would be via bentoml.
 
 ### 5.1 Approach 1
 
