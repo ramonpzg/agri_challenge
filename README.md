@@ -1,6 +1,6 @@
 # Crops Challenge
 
-You can view this project inside a deployed streamlit app, run it on binder, or in your local machine.
+You can view this project inside a deployed streamlit app or run it on binder using the links below. Conversely, you can run it on your local machine by following the setup section below.
 
 -  [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://bio-challenge.onrender.com/)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ramonpzg/agri_challenge/HEAD?labpath=exploration.ipynb)
