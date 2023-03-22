@@ -808,6 +808,23 @@ Finally, if we want to have a look at the graph created by our pipeline, we can 
 !dvc dag
 ```
 
+            +---------+          
+            | extract |          
+            +---------+          
+                 *               
+                 *               
+                 *               
+          +-----------+          
+          | transform |          
+          +-----------+          
+             *       *           
+           **         **         
+          *             *        
+    +------+        +----------+ 
+    | load |        | evaluate | 
+    +------+        +----------+ 
+    [0m
+
 ## 6. Tests
 
 The fastest way to get started testing our code is with `ruff`, a blazingly fast Python linter. In addition, we could go back and add type annotations to our scripts so that we can test code correctness with `mypy`.
@@ -830,18 +847,10 @@ Because we have not created a local dev environment for our package, mypy will l
 
 There is also a type we need to fix, `List`, inside our `extract.py` scrip. We need to add `str` inside of it as `List[str]` so that mypy doesn't yell at us.
 
-That was a quit intro to a few quick and dirty tests we can run on our codebase, there are plenty more we could take advantage of, of course.
+That was a quik intro to a few quick and dirty tests we can run on our codebase, there are plenty more we could take advantage of, of course.
 
 ## 7. Conclusion
 
+We can take advantage of many open source tools to simulate the way in which we read, transform, load, and evaluate the output of our machine learning models. In addition, we can automate and version these pipelines using dvc while saving metrics in a generic config file for ease of use.
 
-
-
-```python
-
-```
-
-
-```python
-
-```
+There are many approaches to model evaluation, and my hope is that you found this one useful.
