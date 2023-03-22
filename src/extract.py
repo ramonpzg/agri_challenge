@@ -4,8 +4,9 @@ from os.path import join
 from glob import glob
 from load import save_data
 import json
+from typing import List
 
-def get_files(directory):
+def get_files(directory: str) -> List:
     return glob(join(directory, "*.json"))
 
 
@@ -29,7 +30,7 @@ def read_files(data_files: str) -> pd.DataFrame:
     
     return pd.concat(dfs_list, axis=0)
 
-def load_table(data_path, file_name):
+def load_table(data_path: str, file_name: str) -> pd.DataFrame:
     return pd.read_parquet(join(data_path, file_name))
 
 if __name__ == "__main__":
