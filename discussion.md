@@ -4,17 +4,17 @@ This document outlines the possible routes I would follow in order to train a mo
 
 ## Table of Contents
 
-1. Task
+1. [Task](##1.-Task)
 2. [TL;DR](##2.-TL;DR)
 3. [Project Scoping](##3.-Project-Scoping)
-4. Data Engineering
-5. ML Model Development
-   1. Approach 1
-   2. Approach 2
-   3. Approach 3
-6. Deployment
-7. Monitoring and Continual Learning
-8. Business Analysis
+4. [Data Engineering](##4.-Data-Engineering)
+5. [ML Model Development](##5.-ML-Model-Development)
+   1. [Approach 1](###1.-Approach-1)
+   2. [Approach 2](##2.-Approach-2)
+   3. [Approach 3](###3.-Approach-3)
+6. [Deployment](##6.-Deployment)
+7. [Monitoring and Continual Learning](##7.-Monitoring-and-Continual-Learning)
+8. [Business Analysis](##8.-Business-Analysis)
 
 ## 1. Task
 
@@ -116,11 +116,37 @@ if __name__ == '__main__':
 
 ## 3. Project Scoping
 
-The
+It is important to lay out the foundation for our project before we begin. This foundation will include overall goal of the project, metrics to optimize for, potential challenges, and more. Let's highlight these for our project.
+
+- Goal: To reduce the amount of human labor required to label microscope-taken images with dreadful spores in them.
+
+- Main Metric: Recall and, potentially, Specificity since we want to maximize the amount of true predictions in the dataset and minimize cost farmer's incurr when adding unnecessary pesticide.
+
+- Potential challenges: highly inbalanced dataset.
 
 ## 4. Data Engineering
 
+In this step, we would evaluate the shape and form of the images ingested by our models and create pipelines to have the images ready-to-go for training at any given moment. In addition, these pipelines would, ideally, be orchestrated in different ways, for example, to run every evening at midnight on VMs with different hardware requirements. For the orchestration layer we would use either an open source tool like MetaFlow, or a cloud-native one like Amazon Glue
+
+
+
+Why different hardware requirements? If different pieces of hardware are down for maintenance for a day or two, that means that our pipeline will process less images and, therefore, would need less resources.
+
+
+
+Note: Orchestrators and schedulers differ in one important way, resources. While orchestrators can shchedule, queue, and manage the resources a series of jobs would need, a scheduler cannot.
+
 ## 5. ML Model Development
+
+Our model development would consist of a few parts:
+
+1. Data Loaders: Assuming we will use PyTorch or FastAI, our data loader would be the piece of our model development pipeline that we connect to the output of our ETL or ELT pipeline from the previous method. Ideally, in this step we will manage train/valid/test split and other transformations necessary. For example, for we would take our spores annotated images for our task and split it 60-20-20.
+
+2. Model or Series of Models: While we would most-likely try one model at a time for inference, it is normal to test approaches that chain multiple models together, as discussed in the TL;DR section. 
+
+3. Experimentation Approach: In this stage, we want to try a combination of hyperparameters (e.g. learning rate) using a tool like Optuna, with an experiment tracking tool like Weights & Biases or MLFlow. That way we won't forget which combinations we ran and which was the best.
+
+4. Model Store: Our models should be kept in an organized way so that we can access them easily in case we need to role back to a previous version or select a newer and better one. Weights & Biases provides a way to save artifacts in it, and another (somewhat preferred) way of saving a model would be via bentoml.
 
 ### 5.1 Approach 1
 
