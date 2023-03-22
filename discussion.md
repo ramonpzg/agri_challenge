@@ -18,12 +18,12 @@ This document outlines the possible routes I would follow to train a model that 
 
 ## 1. Task
 
-<img title="" src="images/raw_input.jpg" alt="AJKFEHASIEFHAUISDHFwrfgasfdgsdf" data-align="center" width="461">
+<img title="" src="https://raw.githubusercontent.com/ramonpzg/agri_challenge/main/images/raw_input.jpg" alt="AJKFEHASIEFHAUISDHFwrfgasfdgsdf" data-align="center" width="461">
 
 > In this question, we would like you to provide a **discussion paragraph** detailing how you would go about setting up a machine learning experiment to identify a particular spore type. Assume that a labeled dataset has been provided for you, including microscope images and labels of bounding boxes. Please outline the core tasks that would need to be completed to develop a machine learning model for this dataset.
 
 
-<img title="" src="images/example_predictions.png" alt="AJKFEHASIEFHAUISDHFwrfgasfdgsdf" width="462" data-align="center">
+<img title="" src="https://raw.githubusercontent.com/ramonpzg/agri_challenge/main/images/example_predictions.png" alt="AJKFEHASIEFHAUISDHFwrfgasfdgsdf" width="462" data-align="center">
 
 ## 2. TL;DR
 
@@ -148,11 +148,11 @@ Our model development would consist of a few parts:
 
 ### 5.1 Approach 1
 
-Since we already have labelled images with a class and the coordinates for the bounding box around the spores with a decease, we would start with object detection classification model that predicts the class. This model could be a R-CNN or Regional-based Convolutional Neural Network (ok but not the best), or a YOLO (You Only Look Once) algorithm (preferred) since it splits the image into grids and it learns not only the class available but also the position of the bouding box.
+Since we already have labeled images with a class and the coordinates for the bounding box around the spores with the decease, we would start with an object detection classification model that predicts the class. This model could be an R-CNN or Regional-based Convolutional Neural Network (ok but not the best), or a YOLO (You Only Look Once) algorithm (preferred) since it splits the image into grids and it learns not only the class available but also the position of the bounding box.
 
 ### 5.2 Approach 2
 
-The second approach we could take is the one describe in the TL;DR above. This involved a segmentation model, followed by some grouping to create new images that would then be passed through a CNN for classification. After some experimentation, we would evaluate the results and pick the best parametrized pipeline to put in production.
+The second approach we could take is the one described in the TL;DR above. This involved a segmentation model, followed by some grouping to create new images that would then be passed through a CNN for classification. After some experimentation, we would evaluate the results and pick the best-parametrized pipeline to put in production.
 
 ### 5.3 Approach 3
 
@@ -160,16 +160,16 @@ This step would require going back to the data engineering part to first create 
 
 ## 6. Deployment
 
-BentoML, which requires having docker and terraform installed, is one of the fastest ways for productionizing ML via serverless functions on multiple cloud providers (AWS in our case). I not only helps us build type-safe services for our models but it also allows us to keep them stored in one central location, regardless of which environment we install bentoml in.
+BentoML, which requires having docker and terraform installed, is one of the fastest ways for productionizing ML via serverless functions on multiple cloud providers (AWS in our case). It not only helps us build type-safe services for our models but it also allows us to keep them stored in one central location, regardless of which environment we install bentoml in.
 
 ## 7. Monitoring and Continual Learning
 
-While the way in which spores get captured might not change drastically with time, the pieace of hardware we house could suck water droplets, dirt, and other kinds of spores that combined could lead our models to provide wrong predictions. To combat this, we could use tools like Alibi Detect to measure feature drift, or evidently.ai to have a more continuous view of our what our models are receiving and returning upon predicting the class of a new image.
+While the way in which spores get captured might not change drastically with time, the piece of hardware we house could suck water droplets, dirt, and other kinds of spores that combined could lead our models to provide wrong predictions. To combat this, we could use tools like Alibi Detect to measure feature drift, or evidently.ai to have a more continuous view of what our models are receiving and returning upon predicting the class of a new image.
 
 ## 8. Business Analysis
 
-This last piece focuses on the way in which we analyze our models' predictions to maximize business value, and the way in which we show predictions output our users via our dashboard. Some questions I would work through include, are the visualizations in place the best ones to showcase the results of our model? Are there other ways to show additional information about our models, or the data in general, to our users to increase engagement? Can we create a in-house labeling tool and hold labelling parties where everyone in the company help labell some data?
+This last piece focuses on how we analyze our models' predictions to maximize business value and how we show predictions output to our users via our dashboard. Some questions I would work through include, are the visualizations in place the best ones to showcase the results of our model? Are there other ways to show additional information about our models, or the data in general, to our users to increase engagement? Can we create an in-house labeling tool and hold labeling parties where everyone in the company helps label some data?
 
 ## 9. Conclusion
 
-A multi-stage model approach might be a good choice for a pipeline that predicts multiple classes and a bounding box for each image. In addition, the infrastructure around our data can depend AWS and on proprietary tools like Amazon Glue for ETL data engineering work, or open source ones like metaflow for our pipelines, bentoml for deployment, and Weights & Biases for experimentation. The model development lifecycle can rest at ease with PyTorch and the architecture of choice (i.e. yolo, r-cnn, or cnn) can depend on the model pipeline.
+A multi-stage model approach might be a good choice for a pipeline that predicts multiple classes and a bounding box for each image. In addition, the infrastructure around our data can depend on AWS and on proprietary tools like Amazon Glue for ETL data engineering work, or open source ones like metaflow for our pipelines, bentoml for deployment, and Weights & Biases for experimentation. The model development lifecycle can rest at ease with PyTorch and the architecture of choice (i.e. yolo, r-cnn, or cnn) can depend on the model pipeline.

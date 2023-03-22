@@ -53,3 +53,13 @@ Open up Jupyter Lab and you should be ready to go.
 ```sh
 jupyter lab
 ```
+
+## Running the App
+
+If you'd like to see a nicer version (with memes) of the answers for this challenge. Run the following command in your terminal and inside the environment for this project.
+
+```sh
+streamlit run src/app/main_page.py
+```
+
+A new window should pop up in no time. Otherwise, you can go to http://localhost:8501 and view the app there.

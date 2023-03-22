@@ -94,9 +94,3 @@ There are two ways to submit your code:
 In this question, we hope for you to demonstrate your knowledge of Python applied to a
 common ML data wrangling task, as well as modern software development practices.
 """)
-
-
-
-# with col3:
-#    st.header("An owl")
-#    st.image("https://static.streamlit.io/examples/owl.jpg")

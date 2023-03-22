@@ -109,8 +109,8 @@ pprint(data)
 
 A much nicer way to look at this file would be through the [JSON Crack](https://jsoncrack.com/editor) editor, which would give us the following image.
 
-![jsonimage](images/jsonstruc.svg)
 
+<img title="" src="https://raw.githubusercontent.com/ramonpzg/agri_challenge/5cb9da51a1a8e0d3b47e3161b43c2a1a3ffcdf01/images/jsonstruc.svg" alt="AJKFEHASIEFHAUISDHFwrfgasfdgsdf" data-align="center" width="600">
 
 Let's look at the prediction for the same image.
 
